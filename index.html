@@ -116,28 +116,72 @@ This is the first website preview. The real AI engine will be connected in the n
 One AI for Everyone · A work in progress
 </footer>
 
+
 <script>
-const promptInput=document.getElementById('prompt');
-const statusBox=document.getElementById('status');
-function notice(message){
-statusBox.innerHTML='<strong>NAV AI</strong><br>'+message;
+const API_URL = "https://nav-ai-backend-20264bd4.kammarinavaneethchary.workers.dev";
+
+const promptInput = document.getElementById("prompt");
+const statusBox = document.getElementById("status");
+
+function notice(message) {
+  statusBox.textContent = "";
+  const title = document.createElement("strong");
+  title.textContent = "NAV AI";
+  const content = document.createElement("p");
+  content.style.whiteSpace = "pre-wrap";
+  content.textContent = message;
+  statusBox.append(title, content);
 }
-document.querySelectorAll('[data-prompt]').forEach(button=>{
-button.addEventListener('click',()=>{
-promptInput.value=button.dataset.prompt;
-promptInput.focus();
+
+document.querySelectorAll("[data-prompt]").forEach(button => {
+  button.addEventListener("click", () => {
+    promptInput.value = button.dataset.prompt;
+    promptInput.focus();
+  });
 });
-});
-document.getElementById('chatForm').addEventListener('submit',event=>{
-event.preventDefault();
-const question=promptInput.value.trim();
-if(!question){
-notice('Please type a question first.');
-return;
-}
-notice('Your question: “'+question.replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]))+'”<br><br>The AI backend is not connected yet. We will connect a real AI model next; this preview does not generate AI answers yet.');
+
+document.getElementById("chatForm").addEventListener("submit", async event => {
+  event.preventDefault();
+
+  const question = promptInput.value.trim();
+
+  if (!question) {
+    notice("Please type a question first.");
+    return;
+  }
+
+  notice("Thinking... Please wait.");
+
+  try {
+    const response = await fetch(API_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ question })
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || "Request failed. Please try again.");
+    }
+
+    const answer =
+      data.response ||
+      data.result?.response ||
+      data.result ||
+      data.text;
+
+    if (typeof answer === "string" && answer.length > 0) {
+      notice(answer);
+    } else {
+      notice("The AI returned an unexpected response. Please try again.");
+    }
+  } catch (error) {
+    notice("Sorry bro, couldn't get an answer. " + error.message);
+  }
 });
 </script>
+ 
 </body>
   </html>
   
