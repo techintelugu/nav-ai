@@ -2,272 +2,136 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+ <link rel="icon" type="image/png" href="./nav-ai-logo.png">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#f5faff">
-<link rel="icon" type="image/png" href="./nav-ai-logo.png">
 <title>NAV AI — One AI for Everyone</title>
 <style>
 :root{--blue:#1264f5;--cyan:#08c9e8;--navy:#101c3b;--muted:#66738d;--line:#e3edfa}
 *{box-sizing:border-box}
-body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--navy);background:radial-gradient(ellipse at 50% 25%,#fff,#f5faff 65%,#eaf5ff);min-height:100vh}
-button,input,textarea{font:inherit}button{cursor:pointer}
-nav{min-height:70px;display:flex;align-items:center;justify-content:space-between;padding:12px 5%;border-bottom:1px solid var(--line);background:#ffffffdf;gap:12px;position:sticky;top:0;z-index:5;backdrop-filter:blur(12px)}
-.brand{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--navy);font-size:22px;font-weight:900}
-.logo{width:40px;height:40px;object-fit:contain}
-.brand span,.gradient{background:linear-gradient(100deg,#1762ef,#04c8e6);background-clip:text;-webkit-background-clip:text;color:transparent}
-.nav-actions{display:flex;gap:8px;align-items:center}
-.btn{border:1px solid var(--line);background:white;color:var(--navy);padding:10px 15px;border-radius:22px;font-weight:700}
+body{margin:0;font-family:Arial,Helvetica,sans-serif;color:var(--navy);background:radial-gradient(ellipse at 50% 35%,#fff 0%,#f5faff 58%,#eaf5ff 100%);min-height:100vh}
+button,input{font:inherit}
+button{cursor:pointer}
+nav{height:76px;display:flex;align-items:center;justify-content:space-between;padding:0 6%;border-bottom:1px solid #e6effb;background:#ffffffd9;gap:16px}
+.brand{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--navy);font-weight:900;font-size:23px;white-space:nowrap}
+.logo{width:43px;height:43px}
+.brand span{background:linear-gradient(100deg,#1762ef,#04c8e6);background-clip:text;-webkit-background-clip:text;color:transparent}
+.links{display:flex;align-items:center;gap:25px}
+.links a{color:#40506d;text-decoration:none;font-size:14px}
+.links a:hover{color:var(--blue)}
+.btn{border:1px solid var(--line);background:white;color:var(--navy);padding:11px 17px;border-radius:24px;font-weight:700}
 .primary{background:linear-gradient(110deg,#1764f5,#08bce9);color:white;border:0;box-shadow:0 5px 16px #1683f333}
-main{max-width:1000px;margin:auto;padding:42px 18px 35px}
-.hero{text-align:center}
-.hero-logo{width:68px;height:68px;object-fit:contain}
-.eyebrow{font-size:11px;letter-spacing:3px;color:#2678d9;font-weight:800;margin-top:10px}
-h1{font-size:clamp(37px,7vw,62px);letter-spacing:-2px;margin:14px 0;line-height:1.1}
-.sub{color:var(--muted);font-size:16px;line-height:1.7;margin:0 auto 25px;max-width:650px}
-.workspace{display:grid;grid-template-columns:220px minmax(0,1fr);gap:16px;text-align:left;margin-top:32px}
-.sidebar,.chat-panel{background:#ffffffd9;border:1px solid var(--line);border-radius:20px;box-shadow:0 10px 35px #357bd910;min-width:0}
-.sidebar{padding:14px;height:max-content}
-.new-chat{width:100%;padding:12px;border-radius:12px}
-.side-title{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:#8190a8;font-weight:800;margin:22px 8px 10px}
-.history{display:flex;flex-direction:column;gap:6px}
-.history-item{border:0;background:transparent;text-align:left;padding:10px;border-radius:10px;color:#4a5c78;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:13px}
-.history-item:hover{background:#eff6ff}
-.chat-panel{overflow:hidden;display:flex;flex-direction:column;min-height:440px}
-.chat-head{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;gap:10px}
-.chat-head strong{font-size:15px}
-.online{font-size:12px;color:#168c6b}
-.messages{padding:20px;display:flex;flex-direction:column;gap:16px;flex:1;min-height:250px}
-.welcome{text-align:center;margin:auto;padding:18px 8px;max-width:440px}
-.welcome-icon{font-size:36px}
-.welcome h2{font-size:22px;margin:12px 0 8px}
-.welcome p{font-size:14px;color:var(--muted);line-height:1.6}
-.message{max-width:95%;padding:13px 15px;border-radius:16px;line-height:1.65;font-size:14px;white-space:pre-wrap;overflow-wrap:anywhere}
-.message.user{align-self:flex-end;background:linear-gradient(120deg,#1764f5,#188fe9);color:white;border-bottom-right-radius:5px}
-.message.ai{align-self:flex-start;background:#f0f7ff;border:1px solid #dcecff;color:#263956;border-bottom-left-radius:5px}
-.message-actions{display:flex;gap:8px;margin-top:8px}
-.small-btn{background:white;border:1px solid #d9e7f8;border-radius:8px;padding:6px 9px;font-size:11px;color:#35547c}
-.typing{color:#6480a6;font-size:13px;padding:5px 0}
-.composer-wrap{padding:14px;border-top:1px solid var(--line);background:#ffffffd9}
-.composer{border:1px solid #cce3ff;border-radius:17px;padding:8px;display:flex;align-items:flex-end;gap:8px;box-shadow:0 5px 20px #357bd90d}
-.composer textarea{width:100%;min-width:0;resize:vertical;max-height:130px;min-height:44px;border:0;outline:0;padding:12px 9px;background:transparent;color:var(--navy);font-size:14px}
-.send{width:44px;height:44px;flex-shrink:0;border:0;border-radius:13px;background:linear-gradient(130deg,#1264f5,#06c6e7);color:white;font-size:20px}
-.send:disabled{opacity:.5;cursor:wait}
-.hint{text-align:center;color:#8a97aa;font-size:11px;margin:10px 0 0}
-.quick{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin:22px 0}
-.quick button{border:1px solid #d8e8fc;background:#fff;border-radius:22px;padding:10px 13px;color:#244a82;font-size:12px}
-.features{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:38px 0}
-.feature{border:1px solid var(--line);border-radius:17px;background:#ffffffc9;padding:19px}
-.feature .ico{font-size:24px}.feature h3{font-size:15px;margin:12px 0 7px}.feature p{font-size:13px;color:var(--muted);line-height:1.6;margin:0}
-footer{text-align:center;border-top:1px solid var(--line);padding:23px;color:#71809a;font-size:12px}
-@media(max-width:700px){
- nav{padding:10px 13px}.brand{font-size:19px}.logo{width:34px;height:34px}
- .nav-actions .optional{display:none}
- main{padding:30px 12px}
- .workspace{grid-template-columns:1fr;gap:10px}
- .sidebar{padding:10px}
- .side-title{margin:12px 5px 7px}
- .history{flex-direction:row;overflow-x:auto}
- .history-item{max-width:170px;flex-shrink:0}
- .chat-panel{min-height:420px}
- .messages{padding:14px}
- .features{grid-template-columns:1fr}
- .feature{padding:16px}
- .sub{font-size:14px}
+main{max-width:1060px;margin:auto;padding:54px 22px 35px;text-align:center}
+.hero-logo{width:78px;height:78px;margin-bottom:8px}
+.eyebrow{font-size:11px;letter-spacing:3px;color:#2678d9;font-weight:700}
+h1{font-size:clamp(38px,7vw,66px);letter-spacing:-2px;margin:14px 0 12px;line-height:1.08}
+h1 span{background:linear-gradient(100deg,#1264f5,#08c9e8);background-clip:text;-webkit-background-clip:text;color:transparent}
+.sub{color:var(--muted);font-size:17px;line-height:1.7;margin:0 auto 28px}
+.chatbox{max-width:740px;margin:0 auto 22px;background:#fff;border:1px solid #cce3ff;border-radius:24px;padding:10px;display:flex;gap:9px;align-items:center;box-shadow:0 12px 38px #357bd91c}
+.chatbox input{min-width:0;flex:1;border:0;outline:0;padding:13px 12px;color:var(--navy);background:transparent;font-size:15px}
+.send{width:46px;height:46px;border:0;border-radius:50%;background:linear-gradient(130deg,#1264f5,#06c6e7);color:white;font-size:22px}
+.actions{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin:20px auto 54px}
+.action{border:1px solid #d8e8fc;background:#ffffffd9;border-radius:28px;padding:12px 17px;color:#244a82;font-size:13px;font-weight:700;box-shadow:0 3px 10px #1b68c90a}
+.action:hover{border-color:#7cb8ff;background:#eef7ff}
+.status{max-width:740px;margin:0 auto 28px;padding:15px 18px;border:1px solid #d7e8fb;border-radius:16px;background:#fff;color:#52617c;font-size:13px;line-height:1.6}
+.features{display:grid;grid-template-columns:repeat(3,1fr);gap:15px;text-align:left;margin:0 auto 45px;max-width:950px}
+.feature{padding:23px 18px;border:1px solid #e0edfb;border-radius:18px;background:#ffffffc9}
+.feature .ico{font-size:25px}
+.feature h3{font-size:16px;margin:12px 0 8px}
+.feature p{font-size:13px;line-height:1.7;color:var(--muted);margin:0}
+footer{border-top:1px solid #dceafa;padding:24px 18px;text-align:center;font-size:12px;color:#71809a}
+footer strong{color:#2467c7}
+.mobile-menu{display:none}
+@media(max-width:650px){
+ nav{height:65px;padding:0 16px}.brand{font-size:20px}.logo{width:37px;height:37px}
+ .links{gap:8px}.links a{display:none}.links .btn{padding:9px 12px;font-size:12px}
+ main{padding:43px 16px 25px}.hero-logo{width:65px;height:65px}
+ h1{letter-spacing:-1.5px}.sub{font-size:15px}
+ .chatbox{border-radius:19px;gap:4px}.chatbox input{padding:12px 7px;font-size:14px}
+ .send{width:42px;height:42px}.actions{margin-bottom:35px;gap:8px}
+ .action{padding:11px 13px;font-size:12px}
+ .features{grid-template-columns:1fr;gap:11px}
+ .feature{padding:18px}
 }
 </style>
 </head>
 <body>
 <nav>
-  <a class="brand" href="#" aria-label="NAV AI home">
-    <img class="logo" src="./nav-ai-logo.png" alt="NAV AI logo" onerror="this.style.display='none'">
-    <span>NAV AI</span>
-  </a>
-  <div class="nav-actions">
-    <button class="btn optional" id="aboutBtn">About</button>
-    <button class="btn primary" id="newTop">＋ New Chat</button>
-  </div>
+<a class="brand" href="#" aria-label="NAV AI Home">
+<svg class="logo" viewBox="0 0 100 100" aria-hidden="true">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#1455ed"/><stop offset="1" stop-color="#08d4e8"/></linearGradient></defs>
+<path d="M17 72V27Q17 17 27 23L69 75Q80 86 80 70V29" fill="none" stroke="url(#g)" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M8 65Q47 91 91 34" fill="none" stroke="#13bce9" stroke-width="6" stroke-linecap="round"/>
+<path d="M76 8L80 18L90 22L80 26L76 36L72 26L62 22L72 18Z" fill="#08c9e8"/>
+</svg>
+NAV <span>AI</span>
+</a>
+<div class="links">
+<a href="#home">Home</a><a href="#explore">Explore</a><a href="#features">Features</a><a href="#about">About</a>
+<button class="btn" onclick="notice('Account sign-in will be added after the secure backend is connected.')">Sign In</button>
+<button class="btn primary" onclick="document.getElementById('prompt').focus()">Get Started →</button>
+</div>
 </nav>
 
-<main>
-  <section class="hero">
-    <img class="hero-logo" src="./nav-ai-logo.png" alt="" onerror="this.style.display='none'">
-    <div class="eyebrow">ONE AI FOR EVERYONE</div>
-    <h1>Your ideas.<br><span>Powered by AI.</span></h1>
-    <p class="sub">Ask questions, learn new things, write documents and explore ideas — all in one place.</p>
-  </section>
+<main id="home">
+<svg class="hero-logo" viewBox="0 0 100 100" aria-label="NAV AI logo">
+<defs><linearGradient id="heroG" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#1455ed"/><stop offset="1" stop-color="#08d4e8"/></linearGradient></defs>
+<path d="M17 72V27Q17 17 27 23L69 75Q80 86 80 70V29" fill="none" stroke="url(#heroG)" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M8 65Q47 91 91 34" fill="none" stroke="#13bce9" stroke-width="6" stroke-linecap="round"/>
+<path d="M76 8L80 18L90 22L80 26L76 36L72 26L62 22L72 18Z" fill="#08c9e8"/>
+</svg>
+<div class="eyebrow">BY NAVANEETH</div>
+<h1>One AI for <span>Everyone.</span></h1>
+<p class="sub">Ask anything. Create anything. Learn anything.<br>Your ideas start here.</p>
 
-  <div class="quick">
-    <button data-prompt="Explain artificial intelligence in simple Telugu with examples.">✨ Learn AI</button>
-    <button data-prompt="Help me write a professional document. Ask what details you need.">📝 Write a document</button>
-    <button data-prompt="Create a simple study plan for a student.">📚 Study plan</button>
-    <button data-prompt="Give me five useful technology ideas for beginners.">💡 Get ideas</button>
-  </div>
+<form class="chatbox" id="chatForm">
+<span style="font-size:22px;padding-left:8px">✧</span>
+<input id="prompt" aria-label="Ask NAV AI" placeholder="Ask NAV AI anything..." autocomplete="off">
+<button class="send" aria-label="Send question" type="submit">➤</button>
+</form>
 
-  <section class="workspace">
-    <aside class="sidebar">
-      <button class="btn primary new-chat" id="newSide">＋ Start a new chat</button>
-      <div class="side-title">Recent chats</div>
-      <div class="history" id="history">
-        <div style="padding:8px;color:#8a97aa;font-size:12px">Your chats appear here.</div>
-      </div>
-    </aside>
+<div class="actions" id="explore">
+<button class="action" data-prompt="Explain a topic in simple words">🎓 Study & Learn</button>
+<button class="action" data-prompt="Help me create a professional document">✍️ Write & Create</button>
+<button class="action" data-prompt="Help me with a coding project">⌘ Code</button>
+<button class="action" data-prompt="Help me analyse this data">▥ Analyse Data</button>
+<button class="action" data-prompt="Give me ideas for a project">✧ Explore Ideas</button>
+</div>
 
-    <section class="chat-panel">
-      <div class="chat-head">
-        <strong>💠 NAV AI Assistant</strong>
-        <span class="online">● Ready to help</span>
-      </div>
-      <div class="messages" id="messages" aria-live="polite">
-        <div class="welcome" id="welcome">
-          <div class="welcome-icon">✦</div>
-          <h2>What can I help you with?</h2>
-          <p>Type a question below. You can ask in English or Telugu.</p>
-        </div>
-      </div>
-      <div class="composer-wrap">
-        <form class="composer" id="chatForm">
-          <textarea id="prompt" rows="1" placeholder="Message NAV AI..." aria-label="Your message" required></textarea>
-          <button class="send" id="sendBtn" type="submit" aria-label="Send message">➤</button>
-        </form>
-        <p class="hint">NAV AI can make mistakes. Check important information.</p>
-      </div>
-    </section>
-  </section>
+<div class="status" id="status" role="status">
+<strong>Welcome to NAV AI</strong><br>
+This is the first website preview. The real AI engine will be connected in the next development step.
+</div>
 
-  <section class="features">
-    <article class="feature"><div class="ico">⚡</div><h3>Smart Answers</h3><p>Ask questions and explore ideas in Telugu or English.</p></article>
-    <article class="feature"><div class="ico">📝</div><h3>Create Documents</h3><p>Get help drafting letters, notes, summaries and more.</p></article>
-    <article class="feature"><div class="ico">🎓</div><h3>Learn Anything</h3><p>Understand topics with beginner-friendly explanations.</p></article>
-  </section>
+<section class="features" id="features">
+<article class="feature"><div class="ico">⚡</div><h3>Smart Answers</h3><p>Get helpful explanations for questions across many subjects and interests.</p></article>
+<article class="feature"><div class="ico">▤</div><h3>Create Documents</h3><p>Plan resumes, reports, letters and notes with future document tools.</p></article>
+<article class="feature"><div class="ico">✧</div><h3>Learn Anything</h3><p>Explore technology, business, education, creativity and everyday topics.</p></article>
+</section>
 </main>
 
-<footer>Built with curiosity by <strong>NAV AI</strong> · One AI for Everyone</footer>
+<footer id="about">
+<strong>NAV AI — By Navaneeth</strong><br><br>
+One AI for Everyone · A work in progress
+</footer>
+
 
 <script>
 const API_URL = "https://nav-ai-backend-20264bd4.kammarinavaneethchary.workers.dev";
 
-const form = document.getElementById("chatForm");
 const promptInput = document.getElementById("prompt");
-const sendBtn = document.getElementById("sendBtn");
-const messages = document.getElementById("messages");
-const historyBox = document.getElementById("history");
+const statusBox = document.getElementById("status");
 
-let chats = [];
-let currentChatId = null;
-let busy = false;
-
-function makeChat(title = "New chat") {
-  return {
-    id: Date.now().toString() + Math.random().toString(36).slice(2, 7),
-    title,
-    items: []
-  };
+function notice(message) {
+  statusBox.textContent = "";
+  const title = document.createElement("strong");
+  title.textContent = "NAV AI";
+  const content = document.createElement("p");
+  content.style.whiteSpace = "pre-wrap";
+  content.textContent = message;
+  statusBox.append(title, content);
 }
-
-function ensureChat() {
-  if (!currentChatId) {
-    const chat = makeChat();
-    chats.unshift(chat);
-    currentChatId = chat.id;
-  }
-  return chats.find(chat => chat.id === currentChatId);
-}
-
-function renderHistory() {
-  historyBox.textContent = "";
-  if (!chats.length) {
-    const empty = document.createElement("div");
-    empty.style.cssText = "padding:8px;color:#8a97aa;font-size:12px";
-    empty.textContent = "Your chats appear here.";
-    historyBox.appendChild(empty);
-    return;
-  }
-
-  chats.slice(0, 12).forEach(chat => {
-    const button = document.createElement("button");
-    button.className = "history-item";
-    button.textContent = chat.title;
-    button.title = chat.title;
-    button.addEventListener("click", () => {
-      if (busy) return;
-      currentChatId = chat.id;
-      renderChat();
-    });
-    historyBox.appendChild(button);
-  });
-}
-
-function renderChat() {
-  messages.textContent = "";
-  const chat = chats.find(item => item.id === currentChatId);
-
-  if (!chat || chat.items.length === 0) {
-    const welcome = document.createElement("div");
-    welcome.className = "welcome";
-    welcome.innerHTML = '<div class="welcome-icon">✦</div><h2>What can I help you with?</h2><p>Type a question below. You can ask in English or Telugu.</p>';
-    messages.appendChild(welcome);
-    return;
-  }
-
-  chat.items.forEach(item => {
-    const bubble = document.createElement("div");
-    bubble.className = "message " + item.role;
-    bubble.textContent = item.text;
-    messages.appendChild(bubble);
-
-    if (item.role === "ai") {
-      const actions = document.createElement("div");
-      actions.className = "message-actions";
-      const copy = document.createElement("button");
-      copy.className = "small-btn";
-      copy.textContent = "📋 Copy answer";
-      copy.addEventListener("click", async () => {
-        try {
-          await navigator.clipboard.writeText(item.text);
-          copy.textContent = "✓ Copied";
-        } catch {
-          const area = document.createElement("textarea");
-          area.value = item.text;
-          document.body.appendChild(area);
-          area.select();
-          const ok = document.execCommand("copy");
-          area.remove();
-          copy.textContent = ok ? "✓ Copied" : "Select and copy manually";
-        }
-      });
-      actions.appendChild(copy);
-      messages.appendChild(actions);
-    }
-  });
-
-  messages.scrollTop = messages.scrollHeight;
-}
-
-function addMessage(role, text) {
-  const chat = ensureChat();
-  chat.items.push({ role, text });
-  if (role === "user" && chat.items.filter(item => item.role === "user").length === 1) {
-    chat.title = text.length > 34 ? text.slice(0, 34) + "…" : text;
-  }
-  renderHistory();
-  renderChat();
-}
-
-function newChat() {
-  if (busy) return;
-  currentChatId = null;
-  promptInput.value = "";
-  renderChat();
-  promptInput.focus();
-}
-
-document.getElementById("newTop").addEventListener("click", newChat);
-document.getElementById("newSide").addEventListener("click", newChat);
-
-document.getElementById("aboutBtn").addEventListener("click", () => {
-  alert("NAV AI — One AI for Everyone. An AI assistant built to help people learn, write and explore ideas.");
-});
 
 document.querySelectorAll("[data-prompt]").forEach(button => {
   button.addEventListener("click", () => {
@@ -276,24 +140,17 @@ document.querySelectorAll("[data-prompt]").forEach(button => {
   });
 });
 
-form.addEventListener("submit", async event => {
+document.getElementById("chatForm").addEventListener("submit", async event => {
   event.preventDefault();
-  if (busy) return;
 
   const question = promptInput.value.trim();
-  if (!question) return;
 
-  busy = true;
-  sendBtn.disabled = true;
-  sendBtn.textContent = "…";
-  addMessage("user", question);
-  promptInput.value = "";
+  if (!question) {
+    notice("Please type a question first.");
+    return;
+  }
 
-  const typing = document.createElement("div");
-  typing.className = "typing";
-  typing.textContent = "NAV AI is thinking…";
-  messages.appendChild(typing);
-  messages.scrollTop = messages.scrollHeight;
+  notice("Thinking... Please wait.");
 
   try {
     const response = await fetch(API_URL, {
@@ -303,33 +160,29 @@ form.addEventListener("submit", async event => {
     });
 
     const data = await response.json();
+
     if (!response.ok) {
       throw new Error(data.error || "Request failed. Please try again.");
     }
 
-    const answer = data.response || data.result?.response || data.result || data.text;
+    const answer =
+      data.response ||
+      data.result?.response ||
+      data.result ||
+      data.text;
 
-    if (typeof answer !== "string" || !answer.trim()) {
-      throw new Error("The AI returned an unexpected response.");
+    if (typeof answer === "string" && answer.length > 0) {
+      notice(answer);
+    } else {
+      notice("The AI returned an unexpected response. Please try again.");
     }
-
-    typing.remove();
-    addMessage("ai", answer.trim());
   } catch (error) {
-    typing.remove();
-    addMessage("ai", "Sorry, NAV AI couldn't answer right now. " + (error.message || "Please try again."));
-  } finally {
-    busy = false;
-    sendBtn.disabled = false;
-    sendBtn.textContent = "➤";
-    promptInput.focus();
+    notice("Sorry bro, couldn't get an answer. " + error.message);
   }
 });
-
-renderHistory();
-renderChat();
 </script>
+ 
 </body>
-</html>
+  </html>
 
-  
+ 
