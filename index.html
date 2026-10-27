@@ -118,24 +118,20 @@ One AI for Everyone · A work in progress
 
 
 
+
 <script>
-const API_URL =
-  "https://nav-ai-backend-20264bd4.kammarinavaneethchary.workers.dev/api/chat";
+const API_URL = "https://nav-ai-backend-20264bd4.kammarinavaneethchary.workers.dev";
 
 const promptInput = document.getElementById("prompt");
 const statusBox = document.getElementById("status");
-const chatForm = document.getElementById("chatForm");
 
 function notice(message) {
-  statusBox.replaceChildren();
-
+  statusBox.textContent = "";
   const title = document.createElement("strong");
   title.textContent = "NAV AI";
-
   const content = document.createElement("p");
   content.style.whiteSpace = "pre-wrap";
   content.textContent = message;
-
   statusBox.append(title, content);
 }
 
@@ -146,7 +142,7 @@ document.querySelectorAll("[data-prompt]").forEach(button => {
   });
 });
 
-chatForm.addEventListener("submit", async event => {
+document.getElementById("chatForm").addEventListener("submit", async event => {
   event.preventDefault();
 
   const question = promptInput.value.trim();
@@ -156,42 +152,38 @@ chatForm.addEventListener("submit", async event => {
     return;
   }
 
-  notice("NAV AI is thinking... Please wait.");
+  notice("Thinking... Please wait.");
 
   try {
     const response = await fetch(API_URL, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        messages: [
-          {
-            role: "user",
-            content: question
-          }
-        ]
-      })
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ question })
     });
 
     const data = await response.json();
 
     if (!response.ok) {
-      throw new Error(
-        data.error || "Request failed. Please try again."
-      );
+      throw new Error(data.error || "Request failed. Please try again.");
     }
 
-    if (typeof data.reply === "string" && data.reply.length > 0) {
-      notice(data.reply);
+    const answer =
+      data.response ||
+      data.result?.response ||
+      data.result ||
+      data.text;
+
+    if (typeof answer === "string" && answer.length > 0) {
+      notice(answer);
     } else {
-      notice("Unexpected AI response. Please check the backend.");
+      notice("The AI returned an unexpected response. Please try again.");
     }
   } catch (error) {
-    notice("Could not connect to NAV AI. " + error.message);
+    notice("Sorry bro, couldn't get an answer. " + error.message);
   }
 });
- </script>
+</script>
+ 
  
  
 </body>
